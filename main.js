@@ -2296,6 +2296,7 @@ function selectMonth() {
 
 
 function createLeaderboard(students) {
+  const loggedInUser = retrieveUserData(); // Get the logged-in user's username
 
   const studentsWithTotalDays = Object.entries(students).map(([studentId, studentData]) => ({
     studentId,
@@ -2303,8 +2304,11 @@ function createLeaderboard(students) {
     schoolId: studentData.schoolId,
     totalPresentDays: Object.keys(studentData)
       .filter(key => key.endsWith('PresentDays'))
-      .reduce((total, key) => total + parseInt(studentData[key], 10), 0)
+      .reduce((total, key) => total + parseInt(studentData[key], 10), 0),
+    isLoggedinStudent: studentData.realName === loggedInUser
+    
   }));
+
 
 
   const sortedStudents = studentsWithTotalDays.sort((a, b) => {
@@ -2347,3 +2351,4 @@ function createLeaderboard(students) {
 
   leaderboardDiv.innerHTML = leaderboardHtml;
 }
+
