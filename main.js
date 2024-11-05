@@ -2296,7 +2296,6 @@ function selectMonth() {
 
 
 function createLeaderboard(students) {
-  const loggedInUser = retrieveUserData();
 
   const studentsWithTotalDays = Object.entries(students).map(([studentId, studentData]) => ({
     studentId,
@@ -2304,11 +2303,8 @@ function createLeaderboard(students) {
     schoolId: studentData.schoolId,
     totalPresentDays: Object.keys(studentData)
       .filter(key => key.endsWith('PresentDays'))
-      .reduce((total, key) => total + parseInt(studentData[key], 10), 0),
-    isLoggedinStudent: studentData.realName === loggedInUser
-    
+      .reduce((total, key) => total + parseInt(studentData[key], 10), 0)
   }));
-
 
 
   const sortedStudents = studentsWithTotalDays.sort((a, b) => {
@@ -2324,10 +2320,15 @@ function createLeaderboard(students) {
   const leaderboardHtml = `
     <table>
       <thead>
-        </thead>
+        <tr>
+          <th><i class="fa-solid fa-hashtag"></i>&nbsp;Rank</th>
+          <th><i class="fa-solid fa-user"></i>&nbsp;Student Name</th>
+          <th><i class="fa-solid fa-sun"></i>&nbsp;Total Present Days</th>
+        </tr>
+      </thead>
       <tbody>
         ${sortedStudents.map((student, index) => `
-          <tr class="${student.isLoggedIn ? 'highlight' : ''}">
+          <tr>
             <td>${index + 1}</td>
             <td>${student.realName}</td>
             <td>${student.totalPresentDays}</td>
@@ -2337,9 +2338,12 @@ function createLeaderboard(students) {
     </table>
   `;
 
+
   const leaderboardDiv = document.getElementById('leaderboard');
+
+
   leaderboardDiv.innerHTML = '';
+
+
   leaderboardDiv.innerHTML = leaderboardHtml;
 }
-
-
