@@ -2104,7 +2104,7 @@ const students = {
   }
 };
 /*
------------ ACCOUNT MANAGEMENT ------------
+------------ ACCOUNT MANAGEMENT ------------
 */
 
 function storeUserData(username) {
